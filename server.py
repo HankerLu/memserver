@@ -44,7 +44,8 @@ async def analyze_image(file: UploadFile):
         try:
             keywords_list = json.loads(keywords.replace("'", '"'))
         except:
-            keywords_list = keywords.strip('[]').split(',')
+            # 同时处理中英文逗号分隔
+            keywords_list = keywords.strip('[]').replace('，', ',').split(',')
             keywords_list = [k.strip() for k in keywords_list]
         
         return {

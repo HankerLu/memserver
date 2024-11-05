@@ -90,6 +90,7 @@ class ImageAnalyzer:
         """完整的图像分析流程"""
         florence_result = self.run_florence(image)
         keywords = self.run_zhipu(florence_result)
+        # print(keywords)
         return florence_result, keywords
 
     def create_poem(self, keywords, poem_type):
