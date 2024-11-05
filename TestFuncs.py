@@ -80,7 +80,7 @@ class ImageAnalyzer:
         response = self.client.chat.completions.create(
             model="glm-4",
             messages=[
-                {"role": "system", "content": "你是一个专业的图像描述分析助手，请对提供的图片描述进行中文翻译和关键词的提取"},
+                {"role": "system", "content": "你是一个专业的图像描述分析助手，请对提供的图片描述进行中文翻译和关键词的提取, 所提取的关键词将用于创作诗歌，请仅返回关键词列表，返回格式为[关键词1,关键词2,关键词3...]"},
                 {"role": "user", "content": f"请对以下图片描述进行中文翻译和关键词的提取,请你仅返回关键词列表，返回格式为[关键词1,关键词2,关键词3...]：{text}"}
             ]
         )
