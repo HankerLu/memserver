@@ -79,20 +79,29 @@ async def health_check():
     """健康检查接口"""
     return {"status": "healthy"}
 
-@app.get("/api/animation")
-async def get_animation():
-    """返回动画文件"""
-    print("Received request for animation file")
-    file_path = "static/animation.webp"
-    if not os.path.exists(file_path):
-        print(f"Animation file not found at path: {file_path}")
-        raise HTTPException(status_code=404, detail="Animation file not found")
-    print(f"Returning animation file from: {file_path}")
-    return FileResponse(
-        file_path,
-        media_type="image/webp",
-        filename="animation.webp"
-    )
+@app.get("/api/images")
+async def get_images():
+    """返回static文件夹下的所有PNG图片"""
+    print("Received request for PNG images")
+    static_dir = "static"
+    
+    # 确保static目录存在
+    if not os.path.exists(static_dir):
+        os.makedirs(static_dir)
+        print(f"Created static directory at path: {static_dir}")
+    
+    # 获取所有PNG文件
+    png_files = []
+    for file in os.listdir(static_dir):
+        if file.lower().endswith('.png'):
+            file_path = os.path.join(static_dir, file)
+            png_files.append({
+                "filename": file,
+                "url": f"/static/{file}"
+            })
+    
+    print(f"Found {len(png_files)} PNG files")
+    return {"images": png_files}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000) 
